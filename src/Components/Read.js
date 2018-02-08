@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import BookItem from './BookItem';
 
 function Read(props) {

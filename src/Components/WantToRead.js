@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import BookItem from './BookItem';
 
 function WantToRead(props) {
 
     let booksList;
-    if(this.props.cover) {
-        booksList = this.props.cover.map((book,i) => <BookItem key={i} book={book} />);
+    if(props.cover) {
+        booksList = props.cover.map((book,i) => <BookItem key={i} book={book} />);
     }
     return (
         <div className="bookshelf">
