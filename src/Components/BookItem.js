@@ -3,7 +3,9 @@ import React from 'react';
 function BookItem(props){
 
     const moveToShelf = (bookItem, value) => {
-        props.moveToShelf(bookItem, value);
+        if(value !== "none") {
+            props.moveToShelf(bookItem, value);
+        }
     };
 
     return (
