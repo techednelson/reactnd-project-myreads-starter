@@ -35,15 +35,14 @@ class BooksApp extends React.Component {
   };
 
   moveToShelf = (bookItem, value) => {
-
-    let books = this.state.booksInventory.map(book => {
+    let books = this.state.booksInventory
+    books.map(book => {
       if(book.id === bookItem.id ){
         book.shelf = value;
       }
     });
     this.setState({booksInventory: books});
     this.organizeShelfs();
-    console.log(this.state.booksInventory);
   }
 
 
