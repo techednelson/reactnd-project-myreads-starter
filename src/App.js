@@ -4,17 +4,18 @@ import { Link } from 'react-router-dom';
 import Reading from './Components/Reading';
 import WantToRead from './Components/WantToRead';
 import Read from './Components/Read';
-import SearchPage from './SearchPage';
+import SearchList from './Components/SearchList';
+import SearchPage from './Components/SearchPage';
 import * as BooksAPI from './Api/BooksAPI';
 import './App.css';
 
 class BooksApp extends React.Component {
   state = {
-    showSearchPage: false,
     booksInventory: [],
     booksReading: [],
     booksToRead: [],
-    booksRead: []
+    booksRead: [],
+    searchResult: []
   }
 
   componentDidMount() {
@@ -32,19 +33,24 @@ class BooksApp extends React.Component {
 
   moveToShelf = (bookItem, value) => {
     let books = this.state.booksInventory
-    books.map(book => {
+    books = books.map(book => {
       if(book.id === bookItem.id ){
         book.shelf = value;
       }
+      return book;
     });
     this.setState({booksInventory: books});
     this.organizeShelfs();
-  }
+  };
+
+  searchBook = book => {
+    BooksAPI.search(book).then(books => this.setState({searchResult: books}));
+  };
 
   render() {
     return (
       <div className="app">
-        <Route exact path="/" render={() => (      
+        <Route exact path="/" render={() => (     
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -61,7 +67,12 @@ class BooksApp extends React.Component {
             </div>
           </div>
         )}/>
-        <Route path="/search" component={SearchPage}/>
+        <Route path="/search" render={() => (
+          <div className="search-books">
+            <SearchPage searchInput={this.searchBook}/>
+            <SearchList searchResult={this.state.searchResult}/>
+          </div>
+        )}/>
       </div>
     )
   }
