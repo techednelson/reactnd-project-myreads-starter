@@ -3,9 +3,13 @@ import BookItem from './BookItem';
 
 function Read(props) {
 
+    const moveToShelf = (id, shelf, value) => {
+        props.moveToShelf(id, shelf, value);
+    };
+
     let booksList;
     if(props.cover) {
-        booksList = props.cover.map((book,i) => <BookItem key={i} book={book} />);
+        booksList = props.cover.map((book) => <BookItem key={book.id} book={book} moveToShelf={moveToShelf}/>);
     }
     return (
         <div className="bookshelf">

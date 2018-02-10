@@ -2,10 +2,14 @@ import React from 'react';
 import BookItem from './BookItem';
 
 function Reading(props) {
+    
+    const moveToShelf = (bookItem, value) => {
+        props.moveToShelf(bookItem, value);
+    };
 
     let booksList;
     if(props.cover) {
-        booksList = props.cover.map((book,i) => <BookItem key={i} book={book} />);
+        booksList = props.cover.map((book) => <BookItem key={book.id} book={book} moveToShelf={moveToShelf}/>);
     }
     return (
         <div className="bookshelf">

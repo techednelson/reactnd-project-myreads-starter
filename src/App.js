@@ -24,14 +24,30 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll().then(books => {
       this.setState({booksInventory: books});
-      this.setState({booksReading: this.state.booksInventory.filter(book => book.shelf === "currentlyReading")});
-      this.setState({booksToRead: this.state.booksInventory.filter(book => book.shelf === "wantToRead")});
-      this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === "read")});
+      this.organizeShelfs();
     });
   }
 
+  organizeShelfs = () => {
+    this.setState({booksReading: this.state.booksInventory.filter(book => book.shelf === "currentlyReading")});
+    this.setState({booksToRead: this.state.booksInventory.filter(book => book.shelf === "wantToRead")});
+    this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === "read")});
+  };
+
+  moveToShelf = (bookItem, value) => {
+
+    let books = this.state.booksInventory.map(book => {
+      if(book.id === bookItem.id ){
+        book.shelf = value;
+      }
+    });
+    this.setState({booksInventory: books});
+    this.organizeShelfs();
+    console.log(this.state.booksInventory);
+  }
+
+
   render() {
-    
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -43,9 +59,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Reading cover={this.state.booksReading} />
-                <WantToRead cover={this.state.booksToRead} />
-                <Read cover={this.state.booksRead} />
+                <Reading cover={this.state.booksReading} moveToShelf={this.moveToShelf} />
+                <WantToRead cover={this.state.booksToRead} moveToShelf={this.moveToShelf} />
+                <Read cover={this.state.booksRead} moveToShelf={this.moveToShelf} />
               </div>
             </div>
             <div className="open-search">

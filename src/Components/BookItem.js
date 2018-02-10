@@ -2,6 +2,10 @@ import React from 'react';
 
 function BookItem(props){
 
+    const moveToShelf = (bookItem, value) => {
+        props.moveToShelf(bookItem, value);
+    };
+
     return (
         <li>
             <div className="book">
@@ -10,7 +14,7 @@ function BookItem(props){
                         <img src={props.book.imageLinks.thumbnail} alt="thumbnail" style={{width: 128, height: 193}}/>
                     </div>
                     <div className="book-shelf-changer">
-                        <select>
+                        <select value={props.book.shelf} onChange={(e) => moveToShelf(props.book, e.target.value)}>
                         <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
