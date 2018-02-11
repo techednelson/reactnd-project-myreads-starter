@@ -24,15 +24,6 @@ class BooksApp extends React.Component {
     });
   }
 
-  searchBook = (search) => {
-    if(search !== ''){
-      BooksAPI.search(search).then(books => {
-        this.setState({searchResult: books});
-      });
-    }
-    
-  }
-
   organizeShelfs = () => {
     this.setState({booksReading: this.state.booksInventory.filter(book => book.shelf === 'currentlyReading')});
     this.setState({booksToRead: this.state.booksInventory.filter(book => book.shelf === 'wantToRead')});
@@ -49,6 +40,10 @@ class BooksApp extends React.Component {
     });
     this.setState({booksInventory: books});
     this.organizeShelfs();
+  };
+
+  searchTitle = (search) => {
+    BooksAPI.search(search).then(books => this.setState({searchResult: books}));
   };
 
   render() {
@@ -72,7 +67,7 @@ class BooksApp extends React.Component {
           </div>
         )}/>
         <Route path="/search" render={() => (
-          <SearchPage searchBook={this.searchBook} searchResult={this.state.searchResult}/>
+          <SearchPage searchTitle={this.searchTitle} searchResult={this.state.searchResult} />
         )}/>
       </div>
     )
