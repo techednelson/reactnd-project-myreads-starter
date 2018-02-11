@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Reading from './Components/Reading';
 import WantToRead from './Components/WantToRead';
 import Read from './Components/Read';
-import SearchList from './Components/SearchList';
 import SearchPage from './Components/SearchPage';
 import * as BooksAPI from './Api/BooksAPI';
 import './App.css';
@@ -18,17 +17,26 @@ class BooksApp extends React.Component {
     searchResult: []
   }
 
-  componentDidMount() {
+  componentWillMount() {
     BooksAPI.getAll().then(books => {
       this.setState({booksInventory: books});
       this.organizeShelfs();
     });
   }
 
+  searchBook = (search) => {
+    if(search !== ''){
+      BooksAPI.search(search).then(books => {
+        this.setState({searchResult: books});
+      });
+    }
+    
+  }
+
   organizeShelfs = () => {
-    this.setState({booksReading: this.state.booksInventory.filter(book => book.shelf === "currentlyReading")});
-    this.setState({booksToRead: this.state.booksInventory.filter(book => book.shelf === "wantToRead")});
-    this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === "read")});
+    this.setState({booksReading: this.state.booksInventory.filter(book => book.shelf === 'currentlyReading')});
+    this.setState({booksToRead: this.state.booksInventory.filter(book => book.shelf === 'wantToRead')});
+    this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === 'read')});
   };
 
   moveToShelf = (bookItem, value) => {
@@ -41,10 +49,6 @@ class BooksApp extends React.Component {
     });
     this.setState({booksInventory: books});
     this.organizeShelfs();
-  };
-
-  searchBook = book => {
-    BooksAPI.search(book).then(books => this.setState({searchResult: books}));
   };
 
   render() {
@@ -68,14 +72,11 @@ class BooksApp extends React.Component {
           </div>
         )}/>
         <Route path="/search" render={() => (
-          <div className="search-books">
-            <SearchPage searchInput={this.searchBook}/>
-            <SearchList searchResult={this.state.searchResult}/>
-          </div>
+          <SearchPage searchBook={this.searchBook} searchResult={this.state.searchResult}/>
         )}/>
       </div>
     )
   }
 }
 
-export default BooksApp
+export default BooksApp;
