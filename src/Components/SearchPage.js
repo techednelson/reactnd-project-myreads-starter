@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import BookItem from './BookItem';
+import SearchItem from './SearchItem';
 import escapeRegExp from 'escape-string-regexp';
 
-class SearchPage extends React.Component {
+class SearchPage extends Component {
 
   state = {
     search: '',
@@ -14,8 +14,8 @@ class SearchPage extends React.Component {
     this.props.searchTitle(search);
   };
 
-  moveToShelf = (bookItem, value) => {
-    this.props.moveToShelf(bookItem, value, true);
+  moveToShelf = (bookItem, val) => {
+    this.props.moveToShelf(bookItem, val, true);
   };
 
   render() {
@@ -24,7 +24,7 @@ class SearchPage extends React.Component {
     if (this.state.search) {
       const match = new RegExp(escapeRegExp(this.state.search), 'i');
       searchList = this.props.searchResult.filter(search => match.test(search.title));
-      filteredList = searchList.map(book => <BookItem key={book.id} book={book} moveToShelf={this.moveToShelf} />);
+      filteredList = searchList.map(book => <SearchItem key={book.id} book={book} moveToShelf={this.moveToShelf} />);
     } 
 
     return (

@@ -3,8 +3,8 @@ import BookItem from './BookItem';
 
 function Read(props) {
 
-    const moveToShelf = (id, shelf, value) => {
-        props.moveToShelf(id, shelf, value);
+    const moveToShelf = (bookItem, val) => {
+        props.moveToShelf(bookItem, val);
     };
 
     let booksList;

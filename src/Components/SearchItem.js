@@ -1,6 +1,6 @@
 import React from 'react';
 
-function BookItem(props) {
+function SearchItem(props) {
 
     const moveToShelf = (bookItem, val) => {
         props.moveToShelf(bookItem, val);
@@ -36,4 +36,4 @@ function BookItem(props) {
     );    
 }
 
-export default BookItem;
+export default SearchItem;

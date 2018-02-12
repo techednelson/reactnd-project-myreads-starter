@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Reading from './Components/Reading';
@@ -8,7 +8,7 @@ import SearchPage from './Components/SearchPage';
 import * as BooksAPI from './Api/BooksAPI';
 import './App.css';
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     booksInventory: [],
     booksReading: [],
@@ -30,9 +30,9 @@ class BooksApp extends React.Component {
     this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === 'read')});
   };
 
-  moveToShelf = (bookItem, value, addBookToShelf) => {
+  moveToShelf = (bookItem, val, addBookToShelf) => {
     if(addBookToShelf) {
-      BooksAPI.update(bookItem, value).then(BooksAPI.getAll().then(books => {
+      BooksAPI.update(bookItem, val).then(BooksAPI.getAll().then(books => {
         this.setState({booksInventory: books});
         this.organizeShelfs();
       }));
@@ -40,7 +40,7 @@ class BooksApp extends React.Component {
     } else {
       let books = this.state.booksInventory.map(book => {
         if(book.id === bookItem.id ){
-          book.shelf = value;
+          book.shelf = val;
         }
         return book;
       });
