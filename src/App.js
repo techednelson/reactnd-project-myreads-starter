@@ -43,7 +43,18 @@ class BooksApp extends React.Component {
   };
 
   searchTitle = (search) => {
-    BooksAPI.search(search).then(books => this.setState({searchResult: books}));
+    let filtered;
+    BooksAPI.search(search).then(books => {
+      filtered = books.map(book => {
+        for(const element of this.state.booksInventory) {
+          if(book.id === element.id || book.title === element.title) {
+            return element;
+          } 
+        }
+        return book;
+      });
+      this.setState({searchResult: filtered});
+    });
   };
 
   render() {

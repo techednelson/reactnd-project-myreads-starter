@@ -8,6 +8,13 @@ function BookItem(props){
         }
     };
 
+    let value;
+    if(props.book.shelf) {
+        value = props.book.shelf;
+    } else {
+       value = 'none';
+    }
+
     return (
         <li>
             <div className="book">
@@ -16,7 +23,7 @@ function BookItem(props){
                         <img src={props.book.imageLinks.thumbnail} alt="thumbnail" style={{width: 128, height: 193}}/>
                     </div>
                     <div className="book-shelf-changer">
-                        <select value={props.book.shelf} onChange={(e) => moveToShelf(props.book, e.target.value)}>
+                        <select value={value} onChange={(e) => moveToShelf(props.book, e.target.value)}>
                         <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
@@ -30,7 +37,6 @@ function BookItem(props){
             </div>                    
         </li>                
     );
-
 }
 
 export default BookItem;

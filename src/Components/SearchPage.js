@@ -6,7 +6,7 @@ import escapeRegExp from 'escape-string-regexp';
 class SearchPage extends React.Component {
 
   state = {
-    search: ''
+    search: '',
   }
 
   onInputChange = search => {
@@ -15,11 +15,12 @@ class SearchPage extends React.Component {
   };
 
   render() {
+    console.log(this.props.searchResult);
     let searchList, filteredList;
     if (this.state.search) {
       const match = new RegExp(escapeRegExp(this.state.search), 'i');
       searchList = this.props.searchResult.filter(search => match.test(search.title));
-      filteredList = searchList.map(book => <BookItem key={book.id} book={book}/>);
+      filteredList = searchList.map(book => <BookItem key={book.id} book={book} />);
     } 
 
     return (
