@@ -3,9 +3,7 @@ import React from 'react';
 function BookItem(props){
 
     const moveToShelf = (bookItem, value) => {
-        if(value !== "none") {
-            props.moveToShelf(bookItem, value);
-        }
+        props.moveToShelf(bookItem, value);
     };
 
     let value;
@@ -24,7 +22,7 @@ function BookItem(props){
                     </div>
                     <div className="book-shelf-changer">
                         <select value={value} onChange={(e) => moveToShelf(props.book, e.target.value)}>
-                        <option value="none" disabled>Move to...</option>
+                        <option disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>

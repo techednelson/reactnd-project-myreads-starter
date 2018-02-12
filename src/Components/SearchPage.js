@@ -14,13 +14,17 @@ class SearchPage extends React.Component {
     this.props.searchTitle(search);
   };
 
+  moveToShelf = (bookItem, value) => {
+    this.props.moveToShelf(bookItem, value, true);
+  };
+
   render() {
     console.log(this.props.searchResult);
     let searchList, filteredList;
     if (this.state.search) {
       const match = new RegExp(escapeRegExp(this.state.search), 'i');
       searchList = this.props.searchResult.filter(search => match.test(search.title));
-      filteredList = searchList.map(book => <BookItem key={book.id} book={book} />);
+      filteredList = searchList.map(book => <BookItem key={book.id} book={book} moveToShelf={this.moveToShelf} />);
     } 
 
     return (

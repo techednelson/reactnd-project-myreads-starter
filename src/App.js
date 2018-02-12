@@ -30,22 +30,28 @@ class BooksApp extends React.Component {
     this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === 'read')});
   };
 
-  moveToShelf = (bookItem, value) => {
-    let books = this.state.booksInventory
-    books = books.map(book => {
-      if(book.id === bookItem.id ){
-        book.shelf = value;
-      }
-      return book;
-    });
-    this.setState({booksInventory: books});
-    this.organizeShelfs();
+  moveToShelf = (bookItem, value, addBookToShelf) => {
+    if(addBookToShelf) {
+      BooksAPI.update(bookItem, value).then(BooksAPI.getAll().then(books => {
+        this.setState({booksInventory: books});
+        this.organizeShelfs();
+      }));
+      
+    } else {
+      let books = this.state.booksInventory.map(book => {
+        if(book.id === bookItem.id ){
+          book.shelf = value;
+        }
+        return book;
+      });
+      this.setState({booksInventory: books});
+      this.organizeShelfs();
+    }
   };
 
   searchTitle = (search) => {
-    let filtered;
     BooksAPI.search(search).then(books => {
-      filtered = books.map(book => {
+      let filtered = books.map(book => {
         for(const element of this.state.booksInventory) {
           if(book.id === element.id || book.title === element.title) {
             return element;
@@ -78,7 +84,7 @@ class BooksApp extends React.Component {
           </div>
         )}/>
         <Route path="/search" render={() => (
-          <SearchPage searchTitle={this.searchTitle} searchResult={this.state.searchResult} />
+          <SearchPage searchTitle={this.searchTitle} searchResult={this.state.searchResult} moveToShelf={this.moveToShelf} />
         )}/>
       </div>
     )
