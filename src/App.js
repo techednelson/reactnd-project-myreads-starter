@@ -37,7 +37,8 @@ class BooksApp extends Component {
         this.organizeShelfs();
       }));
       
-    } else {
+    } 
+    else {
       let books = this.state.booksInventory.map(book => {
         if(book.id === bookItem.id ){
           book.shelf = val;
@@ -46,6 +47,7 @@ class BooksApp extends Component {
       });
       this.setState({booksInventory: books});
       this.organizeShelfs();
+      BooksAPI.update(bookItem, val);
     }
   };
 
