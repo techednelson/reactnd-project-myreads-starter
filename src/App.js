@@ -36,9 +36,14 @@ class BooksApp extends Component {
         this.setState({booksInventory: books});
         this.organizeShelfs();
       }));
-      
-    } 
-    else {
+      let searchFiltered = this.state.searchResult.map(book => {
+        if(book.id === bookItem.id ){
+          book.shelf = val;
+        }
+        return book;
+      });
+      this.setState({searchResult: searchFiltered});
+    } else {
       let books = this.state.booksInventory.map(book => {
         if(book.id === bookItem.id ){
           book.shelf = val;
