@@ -2,16 +2,16 @@ import React from 'react';
 
 function SearchItem(props) {
 
+    /*This method sends to its parent component(search Page) the book Item that was clicked and in which shelf needs to be allocated in main page*/
     const moveToShelf = (bookItem, val) => {
         props.moveToShelf(bookItem, val);
     };
 
+    /*If books in search page are already in one shelf, the shelf name will be saved in value and rendered, otherwise the default value is none*/
     let value;
-    if(props.book.shelf) {
-        value = props.book.shelf;
-    } else {
-        value = 'none';
-    }
+    props.book.shelf ? value = props.book.shelf : value = 'none';
+
+    /*SearchItem will be rendered taking props values(thumbnail, title, authors, etc) from its parent component (searchPage)*/
     return (
         <li>
             <div className="book">
@@ -31,9 +31,9 @@ function SearchItem(props) {
                 </div>
                 <div className="book-title">{props.book.title}</div>
                 <div className="book-authors">{props.book.authors}</div>
-            </div>                    
-        </li>                
-    );    
+            </div>
+        </li>
+    );
 }
 
 export default SearchItem;

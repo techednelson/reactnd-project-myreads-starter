@@ -2,10 +2,12 @@ import React from 'react';
 
 function BookItem(props) {
 
+    /*This method sends to its parents component(Reading,WanToRead and Read) the book Item that was clicked and in which shelf needs to be allocated in main page*/
     const moveToShelf = (bookItem, val) => {
         props.moveToShelf(bookItem, val);
     };
 
+    /*Props are ceived by their parents in order to render books properties(thumbnails, title, auhtors, etc.)*/
     return (
         <li>
             <div className="book">
@@ -25,9 +27,9 @@ function BookItem(props) {
                 </div>
                 <div className="book-title">{props.book.title}</div>
                 <div className="book-authors">{props.book.authors}</div>
-            </div>                    
-        </li>                
-    );    
+            </div>
+        </li>
+    );
 }
 
 export default BookItem;
