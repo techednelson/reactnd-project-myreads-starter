@@ -30,26 +30,25 @@ class BooksApp extends Component {
     this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === 'read')});
   };
 
+  updateShelfControl = (bookItem, val, state) => {
+    return state.map(book => {
+      if(book.id === bookItem.id ){
+        book.shelf = val;
+      }
+        return book;
+    });
+  };
+
   moveToShelf = (bookItem, val, addBookToShelf) => {
     if(addBookToShelf) {
       BooksAPI.update(bookItem, val).then(BooksAPI.getAll().then(books => {
         this.setState({booksInventory: books});
         this.organizeShelfs();
       }));
-      let searchFiltered = this.state.searchResult.map(book => {
-        if(book.id === bookItem.id ){
-          book.shelf = val;
-        }
-        return book;
-      });
+      let searchFiltered = this.updateShelfControl(bookItem, val, this.state.searchResult);
       this.setState({searchResult: searchFiltered});
     } else {
-      let books = this.state.booksInventory.map(book => {
-        if(book.id === bookItem.id ){
-          book.shelf = val;
-        }
-        return book;
-      });
+      let books = this.updateShelfControl(bookItem, val, this.state.booksInventory);
       this.setState({booksInventory: books});
       this.organizeShelfs();
       BooksAPI.update(bookItem, val);

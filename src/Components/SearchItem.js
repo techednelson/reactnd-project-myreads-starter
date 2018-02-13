@@ -10,7 +10,7 @@ function SearchItem(props) {
     if(props.book.shelf) {
         value = props.book.shelf;
     } else {
-    value = 'none';
+        value = 'none';
     }
     return (
         <li>

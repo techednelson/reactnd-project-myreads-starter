@@ -6,7 +6,7 @@ import escapeRegExp from 'escape-string-regexp';
 class SearchPage extends Component {
 
   state = {
-    search: '',
+    search: ''
   }
 
   onInputChange = search => {
