@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Reading from './Components/Reading';
-import WantToRead from './Components/WantToRead';
-import Read from './Components/Read';
+import BookList from './Components/BookList';
 import SearchPage from './Components/SearchPage';
 import * as BooksAPI from './Api/BooksAPI';
 import './App.css';
@@ -26,7 +24,7 @@ class BooksApp extends Component {
     });
   }
 
-  /*This method will filter books stored already in the shelves according to its shelf value, Reading, WantToRead or Read and save them in a separate array*/
+  // /*This method will filter books stored already in the shelves according to its shelf value, Reading, WantToRead or Read and save them in a separate array*/
   organizeShelves = () => {
     this.setState({booksReading: this.state.booksInventory.filter(book => book.shelf === 'currentlyReading')});
     this.setState({booksToRead: this.state.booksInventory.filter(book => book.shelf === 'wantToRead')});
@@ -83,13 +81,11 @@ class BooksApp extends Component {
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
-            <div className="list-books-content">
-              <div>
-                <Reading cover={this.state.booksReading} moveToShelf={this.moveToShelf} />
-                <WantToRead cover={this.state.booksToRead} moveToShelf={this.moveToShelf} />
-                <Read cover={this.state.booksRead} moveToShelf={this.moveToShelf} />
-              </div>
-            </div>
+            <BookList
+              reading={this.state.booksReading}
+              wantToRead={this.state.booksToRead}
+              read={this.state.booksRead}
+              moveToShelf={this.moveToShelf} />
             <div className="open-search">
               <Link to="/search">Add a book</Link>
             </div>
