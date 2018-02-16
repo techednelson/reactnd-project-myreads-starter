@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import BookList from './Components/BookList';
+import ListBooks from './Components/ListBooks';
+import ListBooksTitle from './Components/ListBooksTitle';
+import OpenSearch from './Components/OpenSearch'
 import SearchPage from './Components/SearchPage';
 import * as BooksAPI from './Api/BooksAPI';
 import './App.css';
 
-/*I decided to split main page in three components, Reading, WantToRead and Read, creating content for each component and handle them by react state*/
+/* Main page is splitted in three components, ListBooksTitle, ListBooks and OpenSearch with one child, BookItem while SearchPage has one component, itself and one child, SearchItem, books got from API are filtered by shelf category and rendered by ListBooks component */
 class BooksApp extends Component {
   state = {
     booksInventory: [],
@@ -78,17 +79,13 @@ class BooksApp extends Component {
       <div className="app">
         <Route exact path="/" render={() => (
           <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <BookList
+            <ListBooksTitle />
+            <ListBooks
               reading={this.state.booksReading}
               wantToRead={this.state.booksToRead}
               read={this.state.booksRead}
               moveToShelf={this.moveToShelf} />
-            <div className="open-search">
-              <Link to="/search">Add a book</Link>
-            </div>
+            <OpenSearch />
           </div>
         )}/>
         <Route path="/search" render={() => (
