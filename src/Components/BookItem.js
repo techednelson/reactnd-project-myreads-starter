@@ -8,15 +8,17 @@ function BookItem(props) {
     };
 
     /*Props are received by BookList parent in order to render books properties(thumbnails, title, auhtors, etc.)*/
+    const { title, authors, imageLinks, shelf } = props.book;
+
     return (
         <li>
             <div className="book">
                 <div className="book-top">
                     <div className="book-cover">
-                        <img src={props.book.imageLinks.thumbnail} alt="thumbnail"/>
+                        <img src={imageLinks.thumbnail} alt="thumbnail"/>
                     </div>
                     <div className="book-shelf-changer">
-                        <select value={props.book.shelf} onChange={(e) => moveToShelf(props.book, e.target.value)}>
+                        <select value={shelf} onChange={e => moveToShelf(props.book, e.target.value)}>
                         <option disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
@@ -25,8 +27,8 @@ function BookItem(props) {
                         </select>
                     </div>
                 </div>
-                <div className="book-title">{props.book.title}</div>
-                <div className="book-authors">{props.book.authors}</div>
+                <div className="book-title">{title}</div>
+                <div className="book-authors">{authors}</div>
             </div>
         </li>
     );
