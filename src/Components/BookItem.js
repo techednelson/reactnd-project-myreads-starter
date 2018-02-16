@@ -12,8 +12,8 @@ function BookItem(props) {
         <li>
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193 }}>
-                        <img src={props.book.imageLinks.thumbnail} alt="thumbnail" style={{width: 128, height: 193}}/>
+                    <div className="book-cover">
+                        <img src={props.book.imageLinks.thumbnail} alt="thumbnail"/>
                     </div>
                     <div className="book-shelf-changer">
                         <select value={props.book.shelf} onChange={(e) => moveToShelf(props.book, e.target.value)}>
