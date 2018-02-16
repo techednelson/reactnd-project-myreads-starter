@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SearchItem(props) {
+const SearchItem = props => {
 
     /*This method sends to its parent component(search Page) the book Item that was clicked and in which shelf needs to be allocated in main page*/
     const moveToShelf = (bookItem, val) => {
@@ -36,6 +36,6 @@ function SearchItem(props) {
             </div>
         </li>
     );
-}
+};
 
 export default SearchItem;

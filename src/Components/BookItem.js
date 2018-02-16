@@ -1,6 +1,6 @@
 import React from 'react';
 
-function BookItem(props) {
+const BookItem = props => {
 
     /*This method sends to its parent component BookList the book Item that was clicked and in which shelf needs to be allocated in main page*/
     const moveToShelf = (bookItem, val) => {
@@ -32,6 +32,6 @@ function BookItem(props) {
             </div>
         </li>
     );
-}
+};
 
 export default BookItem;

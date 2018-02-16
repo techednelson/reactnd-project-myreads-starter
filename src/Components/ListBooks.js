@@ -1,7 +1,7 @@
 import React from 'react';
 import BookItem from './BookItem';
 
-function ListBooks(props) {
+const ListBooks = props => {
 
     /*This method receives from its child(Book Item) and sends to its parent component(App) the book Item that was clicked in Reading shelf and in which shelf wants to be moved inside main page.*/
     const moveToShelf = (bookItem, val) => {
@@ -41,6 +41,6 @@ function ListBooks(props) {
             </div>
         </div>
     );
-}
+};
 
 export default ListBooks;
