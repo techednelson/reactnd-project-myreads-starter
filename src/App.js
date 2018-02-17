@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import ListBooks from './Components/ListBooks';
+import BookShelf from './Components/BookShelf';
 import ListBooksTitle from './Components/ListBooksTitle';
 import OpenSearch from './Components/OpenSearch'
 import SearchPage from './Components/SearchPage';
@@ -10,27 +10,16 @@ import './App.css';
 /* Main page is splitted in three components, ListBooksTitle, ListBooks and OpenSearch with one child, BookItem while SearchPage has one component, itself and one child, SearchItem, books got from API are filtered by shelf category and rendered by ListBooks component */
 class BooksApp extends Component {
   state = {
-    booksInventory: [],
-    booksReading: [],
-    booksToRead: [],
-    booksRead: [],
+    books: [],
     searchResult: []
   };
 
   //API call before main page components are rendered
   componentWillMount() {
     BooksAPI.getAll().then(books => {
-      this.setState({booksInventory: books});
-      this.organizeShelves();
+      this.setState({books});
     });
   }
-
-  // /*This method will filter books stored already in the shelves according to its shelf value, Reading, WantToRead or Read and save them in a separate array*/
-  organizeShelves = () => {
-    this.setState({booksReading: this.state.booksInventory.filter(book => book.shelf === 'currentlyReading')});
-    this.setState({booksToRead: this.state.booksInventory.filter(book => book.shelf === 'wantToRead')});
-    this.setState({booksRead: this.state.booksInventory.filter(book => book.shelf === 'read')});
-  };
 
   /*This method processes repeated steps from moveToShelf, it was created to follow the rule don't repeat yourself. Its main purpose is to syncronize the state and changes of books that are already in main page and searchpage*/
   updateShelfControl = (bookItem, val, state) => {
@@ -46,15 +35,13 @@ class BooksApp extends Component {
   moveToShelf = (bookItem, val, addBookToShelf) => {
     if(addBookToShelf) {
       BooksAPI.update(bookItem, val).then(BooksAPI.getAll().then(books => {
-        this.setState({booksInventory: books});
-        this.organizeShelves();
+        this.setState({books: books});
       }));
       let searchFiltered = this.updateShelfControl(bookItem, val, this.state.searchResult);
       this.setState({searchResult: searchFiltered});
     } else {
-      let books = this.updateShelfControl(bookItem, val, this.state.booksInventory);
+      let books = this.updateShelfControl(bookItem, val, this.state.books);
       this.setState({booksInventory: books});
-      this.organizeShelves();
       BooksAPI.update(bookItem, val);
     }
   };
@@ -63,7 +50,7 @@ class BooksApp extends Component {
   searchTitle = (search) => {
     BooksAPI.search(search).then(books => {
       let filtered = books.map(book => {
-        for(const element of this.state.booksInventory) {
+        for(const element of this.state.books) {
           if(book.id === element.id || book.title === element.title) {
             return element;
           }
@@ -75,16 +62,18 @@ class BooksApp extends Component {
   };
 
   render() {
+    const currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading');
+    const wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead');
+    const read = this.state.books.filter(book => book.shelf === 'read');
+
     return (
       <div className="app">
         <Route exact path="/" render={() => (
           <div className="list-books">
             <ListBooksTitle />
-            <ListBooks
-              reading={this.state.booksReading}
-              wantToRead={this.state.booksToRead}
-              read={this.state.booksRead}
-              moveToShelf={this.moveToShelf} />
+            <BookShelf books={currentlyReading} title="currentlyReading" moveToShelf={this.moveToShelf}/>
+            <BookShelf books={wantToRead} title="want to Read" moveToShelf={this.moveToShelf} />
+            <BookShelf books={read} title="Read" moveToShelf={this.moveToShelf} />
             <OpenSearch />
           </div>
         )}/>
