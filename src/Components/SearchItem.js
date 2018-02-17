@@ -3,8 +3,8 @@ import React from 'react';
 const SearchItem = props => {
 
     /*This method sends to its parent component(search Page) the book Item that was clicked and in which shelf needs to be allocated in main page*/
-    const moveToShelf = (bookItem, val) => {
-        props.moveToShelf(bookItem, val);
+    const moveToShelf = (bookItem, shelf) => {
+        props.moveToShelf(bookItem, shelf);
     };
 
     /*If books in search page are already in one shelf, the shelf name will be saved in value and rendered, otherwise the default value is none*/

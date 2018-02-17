@@ -16,8 +16,8 @@ class SearchPage extends Component {
   };
 
   /*This method received from its child(SearchItem) and sends to its parent component(App) the book Item that was clicked and in which shelf needs to be allocated in main page. The third paramenter is a flag to let know moveToShelf method in App.js is we are handling a change triggered in SearchItem or BookItem*/
-  moveToShelf = (bookItem, val) => {
-    this.props.moveToShelf(bookItem, val, true);
+  moveToShelf = (bookItem, shelf) => {
+    this.props.moveToShelf(bookItem, shelf, true);
   };
 
   /*Before rendering the search results, they will be filtered matching the search query with the title of each book form the search and finaled converted into an array of SearchItemp components*/

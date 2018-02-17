@@ -22,27 +22,27 @@ class BooksApp extends Component {
   }
 
   /*This method processes repeated steps from moveToShelf, it was created to follow the rule don't repeat yourself. Its main purpose is to syncronize the state and changes of books that are already in main page and searchpage*/
-  updateShelfControl = (bookItem, val, state) => {
+  updateShelfControl = (bookItem, shelf, state) => {
     return state.map(book => {
       if(book.id === bookItem.id ){
-        book.shelf = val;
+        book.shelf = shelf;
       }
         return book;
     });
   };
 
-  /*This method will handle shelf changes from both Main and Search Page, according to a third value "addBookToShelf" the method will know if the item is Book already in a shelf or a query from search page*/
-  moveToShelf = (bookItem, val, addBookToShelf) => {
-    if(addBookToShelf) {
-      BooksAPI.update(bookItem, val).then(BooksAPI.getAll().then(books => {
-        this.setState({books: books});
+  /*This method will handle shelf changes from both Main and Search Page, according to a third value "addFromSearch" the method will know if the item is Book already in a shelf or a query from search page*/
+  moveToShelf = (bookItem, shelf, addFromSearch) => {
+    if(addFromSearch) {
+      BooksAPI.update(bookItem, shelf).then(BooksAPI.getAll().then(books => {
+        this.setState({
+          books: books,
+          searchResult: this.updateShelfControl(bookItem, shelf, this.state.searchResult)
+        });
       }));
-      let searchFiltered = this.updateShelfControl(bookItem, val, this.state.searchResult);
-      this.setState({searchResult: searchFiltered});
     } else {
-      let books = this.updateShelfControl(bookItem, val, this.state.books);
-      this.setState({booksInventory: books});
-      BooksAPI.update(bookItem, val);
+      this.setState({books: this.updateShelfControl(bookItem, shelf, this.state.books)});
+      BooksAPI.update(bookItem, shelf);
     }
   };
 
@@ -71,8 +71,8 @@ class BooksApp extends Component {
         <Route exact path="/" render={() => (
           <div className="list-books">
             <ListBooksTitle />
-            <BookShelf books={currentlyReading} title="currentlyReading" moveToShelf={this.moveToShelf}/>
-            <BookShelf books={wantToRead} title="want to Read" moveToShelf={this.moveToShelf} />
+            <BookShelf books={currentlyReading} title="Currently Reading" moveToShelf={this.moveToShelf}/>
+            <BookShelf books={wantToRead} title="Want to Read" moveToShelf={this.moveToShelf} />
             <BookShelf books={read} title="Read" moveToShelf={this.moveToShelf} />
             <OpenSearch />
           </div>
